@@ -10,7 +10,7 @@ const nombre = document.getElementById('nombre'),
  apellido = document.getElementById('apellido'),
  telefono = document.getElementById('telefono'),
  email = document.getElementById('email');
- const agenda = [];
+ const agenda = JSON.parse(localStorage.getItem('agendaKey')) || [];
 
 //funciones
 const mostrarModal = ()=>{
@@ -27,10 +27,49 @@ const crearContacto = (e) =>{
     console.log(nuevoContacto)
     //agrego el contacto nuevo al array 
     agenda.push(nuevoContacto);
+    console.log(agenda)
 
-    //resetear el formulario
+
+    //guardar en el array  en localStorage
+    guardarEnLocalStorage()
+
+
+    //resetear fomrulario
+    limpiarFomrulario();
+}
+
+const limpiarFomrulario = () =>{
+    formularioContacto.reset()
+}
+
+//guardar en localStorage
+function guardarEnLocalStorage(){
+    //obtener los datos - key - palabra clave y guarda en formato json
+    localStorage.setItem('agendaKey', JSON.stringify(agenda));
+}
+
+const crearFila = (contacto, fila)=>{
+    const tablaContactos = document.querySelector('tbody')
+    console.log(tablaContactos)
+    tablaContactos.innerHTML += `<tr>
+            <th scope="row">1</th>
+            <td>${contacto.nombre}</td>
+            <td>${contacto.apellido}</td>
+            <td>${contacto.email}</td>
+            <td>${contacto.celular}</td>
+            <td><button class="btn btn-warning">Editar</button></td>
+            <td><button class="btn btn-danger">Borrar</button></td>
+          </tr>`
+}
+
+const cargaInicial = ()=>{
+    if(agenda.length > 0){
+        agenda.map((contacto, posicion)=> crearFila(contacto, posicion + 1))
+    }
 }
 
 //logica extra
 btnAgregarContacto.addEventListener('click', mostrarModal);
-formularioContacto.addEventListener('submit', crearContacto)
+formularioContacto.addEventListener('submit', crearContacto);
+
+cargaInicial();
