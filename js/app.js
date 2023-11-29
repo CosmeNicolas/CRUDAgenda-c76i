@@ -23,19 +23,22 @@ const crearContacto = (e) =>{
     //verificar que los datos sean validos
 
     //crearia el contacto
-    const nuevoContacto = new Contacto(undefined, nombre.value, apellido.value, email.value, telefono.value);
+    const nuevoContacto = new Contacto(undefined, 
+        nombre.value, 
+        apellido.value, 
+        email.value, 
+        telefono.value
+        );
+
     console.log(nuevoContacto)
     //agrego el contacto nuevo al array 
     agenda.push(nuevoContacto);
     console.log(agenda)
 
-
-    //guardar en el array  en localStorage
-    guardarEnLocalStorage()
-
-
     //resetear fomrulario
     limpiarFomrulario();
+    //guardar en el array  en localStorage
+    guardarEnLocalStorage()
 }
 
 const limpiarFomrulario = () =>{
@@ -52,13 +55,15 @@ const crearFila = (contacto, fila)=>{
     const tablaContactos = document.querySelector('tbody')
     console.log(tablaContactos)
     tablaContactos.innerHTML += `<tr>
-            <th scope="row">1</th>
+            <th scope="row">${fila}</th>
             <td>${contacto.nombre}</td>
             <td>${contacto.apellido}</td>
             <td>${contacto.email}</td>
             <td>${contacto.celular}</td>
-            <td><button class="btn btn-warning">Editar</button></td>
-            <td><button class="btn btn-danger">Borrar</button></td>
+            <td>
+            <button class="btn btn-warning">Editar</button></td>
+            <td>
+            <button class="btn btn-danger">Borrar</button></td>
           </tr>`
 }
 
