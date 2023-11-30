@@ -69,7 +69,7 @@ function crearFila(itemContacto, fila){
     <td>${itemContacto.celular}</td>
     <td>
       <button class="btn btn-warning">Editar</button
-      ><button class="btn btn-danger">Borrar</button>
+      ><button class="btn btn-danger" onclick="borrarContacto('${Contacto.id}')">Borrar</button>
     </td>
   </tr>`
 }
@@ -78,6 +78,20 @@ function cargaInicial (){
     if(agenda.length > 0){
         agenda.map((itemContacto, posicion)=> crearFila(itemContacto, posicion + 1))
     }
+}
+//borrar contacto
+
+window.borrarContacto = (idContacto)=>{
+    console.log('desde la funcion borra contacto')
+    console.log(idContacto)
+    //buscar en el array el objeto que tiene este IdContacto array.findIndex
+    const posicionContactoBuscado = agenda.findIndex((itemContacto)=> itemContacto.id === idContacto);
+    console.log(posicionContactoBuscado)
+    //borrar el objeto del array  usando splice(posicion del objeto, cuanto borro)
+agenda.splice(posicionContactoBuscado, 1);
+    //actualizarLocalStorage
+    guardarEnLocalstorage();
+    //borrar una fila  de la tabla
 }
 
 //logica extra
