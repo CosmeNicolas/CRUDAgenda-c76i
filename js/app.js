@@ -39,6 +39,16 @@ const crearContacto = (e) => {
   limpiarFormulario();
   //guardar el array en localstorage
   guardarEnLocalstorage();
+  //dibujar una fila
+  crearFila(nuevoContacto, agenda.length)
+  //ocultar ventana modal despues de crear el contacto
+  modalAdminContacto.hide()
+  //mostrar un mensaje al usuario
+    Swal.fire({
+    title: "Contacto Creado",
+    text: `El contacot ${nuevoContacto.nombre}`,
+    icon: "success"
+  });
 };
 
 function limpiarFormulario() {
@@ -49,14 +59,14 @@ function guardarEnLocalstorage(){
     localStorage.setItem('agendaKey', JSON.stringify(agenda))
 }
 
-function crearFila(contacto, fila){
+function crearFila(itemContacto, fila){
     const tablaContactos = document.querySelector('tbody');
     tablaContactos.innerHTML += `<tr>
     <th scope="row">${fila}</th>
-    <td>${contacto.nombre}</td>
-    <td>${contacto.apellido}</td>
-    <td>${contacto.email}</td>
-    <td>${contacto.celular}</td>
+    <td>${itemContacto.nombre}</td>
+    <td>${itemContacto.apellido}</td>
+    <td>${itemContacto.email}</td>
+    <td>${itemContacto.celular}</td>
     <td>
       <button class="btn btn-warning">Editar</button
       ><button class="btn btn-danger">Borrar</button>
@@ -66,7 +76,7 @@ function crearFila(contacto, fila){
 
 function cargaInicial (){
     if(agenda.length > 0){
-        agenda.map((contacto, posicion)=> crearFila(contacto, posicion + 1))
+        agenda.map((itemContacto, posicion)=> crearFila(itemContacto, posicion + 1))
     }
 }
 
