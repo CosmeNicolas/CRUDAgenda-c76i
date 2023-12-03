@@ -136,9 +136,34 @@ window.borrarContacto = (idContacto) => {
   });
 };
 
+//editar Contacto
 window.editarContacto = (idContacto) => {
-  console.log('desde la funcion editar contacto')
+ 
+   Swal.fire({
+    title: "¿Estas seguro que quieres Editar el contacto?",
+    text: "No puedes revertir este paso",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Editar",
+    cancelButtonText: "Cancelar",
+  }).then((result)=>{
+    if(result.isConfirmed){
+       console.log('desde la funcion editar contacto')
+       console.log(idContacto)
+
+       const posicionContactoAeditar = agenda.findIndex((itemContacto)=> itemContacto.id === idContacto);
+       console.log(posicionContactoAeditar)
+       
+      const mostarDatosGuradados = agenda[posicionContactoAeditar]
+      console.log(mostarDatosGuradados.nombre)
+
+      // mostrarModal()
+    }
+  })
 }
+
 
 
 //logica extra
