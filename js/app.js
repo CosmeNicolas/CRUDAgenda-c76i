@@ -159,17 +159,17 @@ window.editarContacto = (idContacto) => {
       const mostarDatosGuradados = ()=>{
         if(agenda.length > 0){
           
-          const primercontacto = agenda[posicionContactoAeditar];
-          nombre.value = primercontacto.nombre;
-          apellido.value = primercontacto.apellido;
-          email.value = primercontacto.email;
-          telefono.value = primercontacto.celular;
+          const contactoSelecionadoEditar = agenda[posicionContactoAeditar];
+          nombre.value = contactoSelecionadoEditar.nombre;
+          apellido.value = contactoSelecionadoEditar.apellido;
+          email.value = contactoSelecionadoEditar.email;
+          telefono.value = contactoSelecionadoEditar.celular;
           // mostramos el modale con los datos ya guardados()
         }
       }
       mostrarModal(mostarDatosGuradados())
       
-      /* pendiente de reemplar una column vieja por una nueva  */
+      
     
 
     }
