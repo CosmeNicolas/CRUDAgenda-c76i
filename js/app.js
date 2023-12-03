@@ -67,8 +67,8 @@ function crearFila(contacto, fila) {
     <td>${contacto.email}</td>
     <td>${contacto.celular}</td>
     <td>
-      <button class="btn btn-warning">Editar</button
-      ><button class="btn btn-danger" onclick="borrarContacto('${contacto.id}')">Borrar</button>
+      <button class="btn btn-warning" onclick="editarContacto('${contacto.id}')">Editar</button>
+      <button class="btn btn-danger" onclick="borrarContacto('${contacto.id}')">Borrar</button>
     </td>
   </tr>`;
 }
@@ -135,6 +135,11 @@ window.borrarContacto = (idContacto) => {
     }
   });
 };
+
+window.editarContacto = (idContacto) => {
+  console.log('desde la funcion editar contacto')
+}
+
 
 //logica extra
 btnAgregarContacto.addEventListener("click", mostrarModal);
