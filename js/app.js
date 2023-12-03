@@ -156,10 +156,22 @@ window.editarContacto = (idContacto) => {
        const posicionContactoAeditar = agenda.findIndex((itemContacto)=> itemContacto.id === idContacto);
        console.log(posicionContactoAeditar)
        
-      const mostarDatosGuradados = agenda[posicionContactoAeditar]
-      console.log(mostarDatosGuradados.nombre)
+      const mostarDatosGuradados = ()=>{
+        if(agenda.length > 0){
+          
+          const primercontacto = agenda[posicionContactoAeditar];
+          nombre.value = primercontacto.nombre;
+          apellido.value = primercontacto.apellido;
+          email.value = primercontacto.email;
+          telefono.value = primercontacto.celular;
+          // mostramos el modale con los datos ya guardados()
+        }
+      }
+      mostrarModal(mostarDatosGuradados())
+      
+      /* pendiente de reemplar una column vieja por una nueva  */
+    
 
-      // mostrarModal()
     }
   })
 }
