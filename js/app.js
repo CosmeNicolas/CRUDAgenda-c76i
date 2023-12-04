@@ -12,6 +12,7 @@ const nombre = document.getElementById("nombre"),
   telefono = document.getElementById("telefono"),
   email = document.getElementById("email");
 const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
+const btnEditar = document.getElementById('btnEditar')
 
 //funciones
 const mostrarModal = () => {
@@ -139,20 +140,7 @@ window.borrarContacto = (idContacto) => {
 //editar Contacto
 window.editarContacto = (idContacto) => {
  
-   Swal.fire({
-    title: "¿Estas seguro que quieres Editar el contacto?",
-    text: "No puedes revertir este paso",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Editar",
-    cancelButtonText: "Cancelar",
-  }).then((result)=>{
-    if(result.isConfirmed){
-       console.log('desde la funcion editar contacto')
-       console.log(idContacto)
-
+  
        const posicionContactoAeditar = agenda.findIndex((itemContacto)=> itemContacto.id === idContacto);
        console.log(posicionContactoAeditar)
        
@@ -164,21 +152,19 @@ window.editarContacto = (idContacto) => {
           apellido.value = contactoSelecionadoEditar.apellido;
           email.value = contactoSelecionadoEditar.email;
           telefono.value = contactoSelecionadoEditar.celular;
-          // mostramos el modale con los datos ya guardados()
+          // mostramos el modal con los datos ya guardados() 
         }
       }
       mostrarModal(mostarDatosGuradados())
-      
-      
-    
-
-    }
-  })
 }
+
+
+  
 
 
 
 //logica extra
+
 btnAgregarContacto.addEventListener("click", mostrarModal);
 formularioContacto.addEventListener("submit", crearContacto);
 
