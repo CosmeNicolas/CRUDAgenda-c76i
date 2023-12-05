@@ -12,7 +12,7 @@ const nombre = document.getElementById("nombre"),
   telefono = document.getElementById("telefono"),
   email = document.getElementById("email");
 const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
-const btnEditar = document.getElementById('btnEditar')
+
 
 //funciones
 const mostrarModal = () => {
@@ -68,6 +68,7 @@ function crearFila(contacto, fila) {
     <td>${contacto.email}</td>
     <td>${contacto.celular}</td>
     <td>
+          <button class="btn btn-primary" onclick="verDetalleContacto('${contacto.id}')">Detalle</button>
       <button class="btn btn-warning" onclick="editarContacto('${contacto.id}')">Editar</button>
       <button class="btn btn-danger" onclick="borrarContacto('${contacto.id}')">Borrar</button>
     </td>
@@ -98,6 +99,13 @@ function cargaInicial() {
   }
   //agregar un cartel informativo para el usuario
 }
+
+window.verDetalleContacto = (idContacto)=>{
+  console.log(window.location)
+  window.location.href =  window.location.origin + '/pages/detalleContacto.html?id='+ idContacto
+}
+
+
 window.borrarContacto = (idContacto) => {
   Swal.fire({
     title: "¿Estas seguro que quieres borrar?",
@@ -138,29 +146,64 @@ window.borrarContacto = (idContacto) => {
 };
 
 //editar Contacto
+//crear una variable booleana para el boton crear contacto
 window.editarContacto = (idContacto) => {
- 
+
+  const posicionContactoAeditar = agenda.findIndex((itemContacto) => itemContacto.id === idContacto);
+  console.log(posicionContactoAeditar)
+
+  const mostarDatosGuradados = () => {
+    if (agenda.length > 0) {
+
+      const contactoSelecionadoEditar = agenda[posicionContactoAeditar];
+      nombre.value = contactoSelecionadoEditar.nombre;
+      apellido.value = contactoSelecionadoEditar.apellido;
+      email.value = contactoSelecionadoEditar.email;
+      telefono.value = contactoSelecionadoEditar.celular;
+      // mostramos el modal con los datos ya guardados() 
+      mostrarModal()
+    }
+
+  }
+  mostarDatosGuradados()
+
+  const btnGuardar = document.createElement('button');
+  btnGuardar.classList.add('btn', 'btn-primary');
+  btnGuardar.textContent = 'Guardar Cambios';
+  btnGuardar.onclick = () => {
+    const nuevoNombre = nombre.value;
+    const nuevoApellido = apellido.value;
+    const nuevoEmail = email.value;
+    const nuevoTelefono = telefono.value;
   
-       const posicionContactoAeditar = agenda.findIndex((itemContacto)=> itemContacto.id === idContacto);
-       console.log(posicionContactoAeditar)
-       
-      const mostarDatosGuradados = ()=>{
-        if(agenda.length > 0){
+
+    // Actualiza los valores en el array
+      agenda[posicionContactoAeditar].nombre = nuevoNombre;
+      agenda[posicionContactoAeditar].apellido = nuevoApellido;
+      agenda[posicionContactoAeditar].email = nuevoEmail;
+      agenda[posicionContactoAeditar].celular = nuevoTelefono;
+      // Actualiza la fila en la tabla
+          const filaEditada = posicionContactoAeditar + 1;
+          crearFila(agenda[posicionContactoAeditar], filaEditada);
+      
+           // Oculta el modal
+          modalAdminContacto.hide();
+      
+       // Muestra un mensaje al usuario
+          Swal.fire({
+            title: "Contacto actualizado",
+            text: `Los cambios se han guardado correctamente`,
+            icon: "success",
+          });
           
-          const contactoSelecionadoEditar = agenda[posicionContactoAeditar];
-          nombre.value = contactoSelecionadoEditar.nombre;
-          apellido.value = contactoSelecionadoEditar.apellido;
-          email.value = contactoSelecionadoEditar.email;
-          telefono.value = contactoSelecionadoEditar.celular;
-          // mostramos el modal con los datos ya guardados() 
-        }
-      }
-      mostrarModal(mostarDatosGuradados())
+               const modalFooter = document.querySelector('.modal-footer');
+            modalFooter.innerHTML = '';
+            modalFooter.appendChild(btnGuardar);
 }
 
 
-  
 
+}
 
 
 //logica extra
