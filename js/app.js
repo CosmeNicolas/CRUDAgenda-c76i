@@ -1,4 +1,5 @@
 import Contacto from "./classContacto.js";
+import { validarCantidadCaracteres, validarEmail } from "./validaciones.js";
 //Create - Read - Update - Delete contactos
 // const contacto = new Contacto(1, 'Juan', 'Pérez', 'juan.perez@email.com', '555-123-4567');
 
@@ -21,35 +22,38 @@ const mostrarModal = () => {
 
 const crearContacto = (e) => {
   e.preventDefault();
-  console.log("aqui debo crear el contacto nuevo");
   //verificar que los datos sean validos
-
-  //crearia el contacto
-  const nuevoContacto = new Contacto(
-    undefined,
-    nombre.value,
-    apellido.value,
-    email.value,
-    telefono.value
-  );
-  console.log(nuevoContacto);
-  //agrego el contacto nuevo al array
-  agenda.push(nuevoContacto);
-  console.log(agenda);
-  //resetear el formulario
-  limpiarFormulario();
-  //guardar el array en localstorage
-  guardarEnLocalstorage();
-  //dibujar una fila
-  crearFila(nuevoContacto, agenda.length);
-  modalAdminContacto.hide();
-  //mostrar un mensaje al usuario
-  Swal.fire({
-    title: "Contacto creado",
-    text: `El contacto ${nuevoContacto.nombre} fue creado correctamente`,
-    icon: "success",
-  });
+  //if(true)
+  if (validarCantidadCaracteres(nombre.value, 6, 50) && validarCantidadCaracteres(apellido, 6, 50) && validarEmail(email.value)) {
+    //crearia el contacto
+    const nuevoContacto = new Contacto(
+      undefined,
+      nombre.value,
+      apellido.value,
+      email.value,
+      telefono.value
+    );
+    console.log(nuevoContacto);
+    //agrego el contacto nuevo al array
+    agenda.push(nuevoContacto);
+    console.log(agenda);
+    //resetear el formulario
+    limpiarFormulario();
+    //guardar el array en localstorage
+    guardarEnLocalstorage();
+    //dibujar una fila
+    crearFila(nuevoContacto, agenda.length);
+    modalAdminContacto.hide();
+    //mostrar un mensaje al usuario
+    Swal.fire({
+      title: "Contacto creado",
+      text: `El contacto ${nuevoContacto.nombre} fue creado correctamente`,
+      icon: "success",
+    });
+  }
 };
+
+
 
 function limpiarFormulario() {
   formularioContacto.reset();
@@ -100,9 +104,9 @@ function cargaInicial() {
   //agregar un cartel informativo para el usuario
 }
 
-window.verDetalleContacto = (idContacto)=>{
+window.verDetalleContacto = (idContacto) => {
   console.log(window.location)
-  window.location.href =  window.location.origin + '/pages/detalleContacto.html?id='+ idContacto
+  window.location.href = window.location.origin + '/pages/detalleContacto.html?id=' + idContacto
 }
 
 
@@ -146,60 +150,43 @@ window.borrarContacto = (idContacto) => {
 };
 
 //editar Contacto
+//nuevaFuncion de botn 
+
+function editar() {
+  console.log("desde el boton editar")
+}
+
+//
 //crear una variable booleana para el boton crear contacto
 window.editarContacto = (idContacto) => {
+  cambiarBoton()
 
-  const posicionContactoAeditar = agenda.findIndex((itemContacto) => itemContacto.id === idContacto);
-  console.log(posicionContactoAeditar)
+  function cambiarBoton() {
+    const boton = document.getElementById("btnEditarContacto");
+    boton.innerText = "Editar";
+    boton.type = "button"; // Cambia el tipo de submit a button
+    boton.removeEventListener("click", cambiarBoton); // Elimina el listener anterior
+    boton.addEventListener("click", editar); // Agrega un nuevo listener
 
-  const mostarDatosGuradados = () => {
-    if (agenda.length > 0) {
+    const posicionContactoAeditar = agenda.findIndex((itemContacto) => itemContacto.id === idContacto);
+    console.log(posicionContactoAeditar)
 
-      const contactoSelecionadoEditar = agenda[posicionContactoAeditar];
-      nombre.value = contactoSelecionadoEditar.nombre;
-      apellido.value = contactoSelecionadoEditar.apellido;
-      email.value = contactoSelecionadoEditar.email;
-      telefono.value = contactoSelecionadoEditar.celular;
-      // mostramos el modal con los datos ya guardados() 
-      mostrarModal()
+
+    const mostarDatosGuradados = () => {
+      if (agenda.length > 0) {
+
+        const contactoSelecionadoEditar = agenda[posicionContactoAeditar];
+        nombre.value = contactoSelecionadoEditar.nombre;
+        apellido.value = contactoSelecionadoEditar.apellido;
+        email.value = contactoSelecionadoEditar.email;
+        telefono.value = contactoSelecionadoEditar.celular;
+        // mostramos el modal con los datos ya guardados() 
+        mostrarModal()
+      }
+
     }
-
+    mostarDatosGuradados()
   }
-  mostarDatosGuradados()
-
-  const btnGuardar = document.createElement('button');
-  btnGuardar.classList.add('btn', 'btn-primary');
-  btnGuardar.textContent = 'Guardar Cambios';
-  btnGuardar.onclick = () => {
-    const nuevoNombre = nombre.value;
-    const nuevoApellido = apellido.value;
-    const nuevoEmail = email.value;
-    const nuevoTelefono = telefono.value;
-  
-
-    // Actualiza los valores en el array
-      agenda[posicionContactoAeditar].nombre = nuevoNombre;
-      agenda[posicionContactoAeditar].apellido = nuevoApellido;
-      agenda[posicionContactoAeditar].email = nuevoEmail;
-      agenda[posicionContactoAeditar].celular = nuevoTelefono;
-      // Actualiza la fila en la tabla
-          const filaEditada = posicionContactoAeditar + 1;
-          crearFila(agenda[posicionContactoAeditar], filaEditada);
-      
-           // Oculta el modal
-          modalAdminContacto.hide();
-      
-       // Muestra un mensaje al usuario
-          Swal.fire({
-            title: "Contacto actualizado",
-            text: `Los cambios se han guardado correctamente`,
-            icon: "success",
-          });
-          
-               const modalFooter = document.querySelector('.modal-footer');
-            modalFooter.innerHTML = '';
-            modalFooter.appendChild(btnGuardar);
-}
 
 
 
