@@ -1,5 +1,5 @@
 import Contacto from "./classContacto.js";
-import { validarCantidadCaracteres, validarEmail } from "./validaciones.js";
+import { validarCantidadCaracteres, validarEmail } from "./validaciones.js"; 
 //Create - Read - Update - Delete contactos
 // const contacto = new Contacto(1, 'Juan', 'Pérez', 'juan.perez@email.com', '555-123-4567');
 
@@ -182,10 +182,10 @@ window.editarContacto = (idContacto) => {
     console.log(datosContactoNombre,datosContactoApeliido,datosContactoEmail,datosContactoCelular)
     
   }
-
-
-
   cambiarBoton()
+
+
+
   mostrarModal()
   guardarEnLocalstorage()
 }
