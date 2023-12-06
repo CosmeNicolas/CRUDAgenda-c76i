@@ -154,42 +154,40 @@ window.borrarContacto = (idContacto) => {
 
 function editar() {
   console.log("desde el boton editar")
+  console.log(agenda.nombre)
+  
 }
 
 //
 //crear una variable booleana para el boton crear contacto
 window.editarContacto = (idContacto) => {
-  cambiarBoton()
-
+  
   function cambiarBoton() {
     const boton = document.getElementById("btnEditarContacto");
     boton.innerText = "Editar";
     boton.type = "button"; // Cambia el tipo de submit a button
     boton.removeEventListener("click", cambiarBoton); // Elimina el listener anterior
     boton.addEventListener("click", editar); // Agrega un nuevo listener
-
+    
     const posicionContactoAeditar = agenda.findIndex((itemContacto) => itemContacto.id === idContacto);
     console.log(posicionContactoAeditar)
+    //mostrar datos del contacto ya creado en el formulario
 
-
-    const mostarDatosGuradados = () => {
-      if (agenda.length > 0) {
-
-        const contactoSelecionadoEditar = agenda[posicionContactoAeditar];
-        nombre.value = contactoSelecionadoEditar.nombre;
-        apellido.value = contactoSelecionadoEditar.apellido;
-        email.value = contactoSelecionadoEditar.email;
-        telefono.value = contactoSelecionadoEditar.celular;
-        // mostramos el modal con los datos ya guardados() 
-        mostrarModal()
-      }
-
-    }
-    mostarDatosGuradados()
+    
+    const datosContactoNombre = agenda[posicionContactoAeditar].nombre
+   const  datosContactoApeliido = agenda[posicionContactoAeditar].apellido
+   const  datosContactoEmail = agenda[posicionContactoAeditar].email
+   const  datosContactoCelular = agenda[posicionContactoAeditar].celular
+   
+    console.log(datosContactoNombre,datosContactoApeliido,datosContactoEmail,datosContactoCelular)
+    
   }
 
 
 
+  cambiarBoton()
+  mostrarModal()
+  guardarEnLocalstorage()
 }
 
 
