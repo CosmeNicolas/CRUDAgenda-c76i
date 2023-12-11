@@ -155,11 +155,6 @@ window.borrarContacto = (idContacto) => {
 //editar Contacto
 //nuevaFuncion de botn 
 
-function editar() {
-  console.log("desde el boton editar")
-  console.log(agenda.nombre)
-
-}
 
 //
 //crear una variable booleana para el boton crear contacto
